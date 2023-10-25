@@ -31,6 +31,17 @@ app.get('/search/:query', function(req, res) {
   ;
 });
 
+app.get('/get-top', function(req, res) {
+  const url = 'gallery/hot/top/day/1?showViral=true&mature=false&album_previews=true';
+  instance.get(url)
+    .then(function (result) {
+      res.send(result.data.data.filter(item => !item.is_album && !item.nsfw && !item.animated));
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+});
+
 app.use('/node_modules', express.static(path.join(__dirname, 'node_modules')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
